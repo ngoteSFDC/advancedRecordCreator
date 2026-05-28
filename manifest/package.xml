@@ -12,5 +12,5 @@
         <members>dynamicRecordCreator</members>
         <name>LightningComponentBundle</name>
     </types>
-    <version>60.0</version>
+    <version>66.0</version>
 </Package>
