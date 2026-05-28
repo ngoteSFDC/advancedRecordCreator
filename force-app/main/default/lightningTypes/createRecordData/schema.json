@@ -1,0 +1,5 @@
+{
+    "title": "Create Record Data",
+    "description": "Structured metadata for dynamically creating a Salesforce record from the Agentforce window.",
+    "lightning:type": "@apexClassType/c__CreateRecordData"
+}

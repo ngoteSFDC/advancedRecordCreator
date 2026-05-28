@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>CreateRecordData</members>
+        <members>CreateRecordField</members>
+        <members>DynamicRecordCreator</members>
+        <members>DynamicRecordCreatorTest</members>
+        <members>DynamicRecordSaver</members>
+        <name>ApexClass</name>
+    </types>
+    <types>
+        <members>dynamicRecordCreator</members>
+        <name>LightningComponentBundle</name>
+    </types>
+    <version>60.0</version>
+</Package>

@@ -1,0 +1,155 @@
+<template>
+    <div class="creator-container">
+
+        <!-- Header -->
+        <div class="creator-header">
+            <lightning-icon
+                icon-name={iconName}
+                size="small"
+                class="header-icon"
+            ></lightning-icon>
+            <span class="header-title">
+                Create New {objectLabel}
+            </span>
+        </div>
+
+        <!-- Success banner + record link (shown after save) -->
+        <template if:true={isSaved}>
+            <div class="success-banner">
+                <lightning-icon icon-name="utility:success" size="x-small" variant="success"></lightning-icon>
+                <span class="success-text">{successMessage}</span>
+            </div>
+            <div class="record-link-row">
+                <lightning-icon icon-name="utility:open" size="x-small"></lightning-icon>
+                <a href={savedRecordUrl} target="_blank" class="record-link">
+                    View {savedRecordName}
+                </a>
+            </div>
+        </template>
+
+        <!-- Form fields -->
+        <div class="field-list">
+            <template for:each={processedFields} for:item="field">
+                <div key={field.fieldApiName} class="field-row">
+
+                    <template if:true={field.isStandard}>
+                        <lightning-input
+                            label={field.fieldLabel}
+                            value={field.currentValue}
+                            type={field.inputType}
+                            required={field.isRequired}
+                            field-name={field.fieldApiName}
+                            onchange={handleFieldChange}
+                            disabled={isDisabled}
+                            class="field-input"
+                        ></lightning-input>
+                    </template>
+
+                    <template if:true={field.isTextarea}>
+                        <lightning-textarea
+                            label={field.fieldLabel}
+                            value={field.currentValue}
+                            required={field.isRequired}
+                            field-name={field.fieldApiName}
+                            onchange={handleFieldChange}
+                            disabled={isDisabled}
+                            class="field-input"
+                        ></lightning-textarea>
+                    </template>
+
+                    <template if:true={field.isCheckbox}>
+                        <lightning-input
+                            label={field.fieldLabel}
+                            type="checkbox"
+                            checked={field.checkedValue}
+                            required={field.isRequired}
+                            field-name={field.fieldApiName}
+                            onchange={handleCheckboxChange}
+                            disabled={isDisabled}
+                            class="field-input"
+                        ></lightning-input>
+                    </template>
+
+                    <template if:true={field.isPicklist}>
+                        <lightning-combobox
+                            label={field.fieldLabel}
+                            value={field.currentValue}
+                            options={field.picklistOptions}
+                            required={field.isRequired}
+                            field-name={field.fieldApiName}
+                            onchange={handleFieldChange}
+                            disabled={isDisabled}
+                            class="field-input"
+                            placeholder="-- Select --"
+                        ></lightning-combobox>
+                    </template>
+
+                    <template if:true={field.isMultiPicklist}>
+                        <lightning-dual-listbox
+                            label={field.fieldLabel}
+                            source-label="Available"
+                            selected-label="Selected"
+                            options={field.picklistOptions}
+                            value={field.multiValues}
+                            required={field.isRequired}
+                            field-name={field.fieldApiName}
+                            onchange={handleMultiPicklistChange}
+                            disabled={isDisabled}
+                            class="field-input"
+                        ></lightning-dual-listbox>
+                    </template>
+
+                    <template if:true={field.isLookup}>
+                        <div class="lookup-wrapper">
+                            <lightning-record-picker
+                                label={field.fieldLabel}
+                                object-api-name={field.referenceObjectName}
+                                value={field.currentValue}
+                                data-field-name={field.fieldApiName}
+                                onchange={handleLookupChange}
+                                required={field.isRequired}
+                                disabled={isDisabled}
+                                class="field-input"
+                            ></lightning-record-picker>
+                            <template if:true={field.referenceNote}>
+                                <p class="reference-note">{field.referenceNote}</p>
+                            </template>
+                        </div>
+                    </template>
+
+                </div>
+            </template>
+        </div>
+
+        <!-- Status message -->
+        <template if:false={isSaved}>
+            <template if:true={statusMessage}>
+                <div class={statusClass}>
+                    <lightning-icon
+                        icon-name={statusIcon}
+                        size="x-small"
+                        variant={statusIconVariant}
+                    ></lightning-icon>
+                    <span class="status-text">{statusMessage}</span>
+                </div>
+            </template>
+
+            <div class="button-row">
+                <lightning-button
+                    label="Cancel"
+                    onclick={handleCancel}
+                    disabled={isSaving}
+                    class="btn-cancel"
+                ></lightning-button>
+                <lightning-button
+                    label={saveButtonLabel}
+                    variant="brand"
+                    onclick={handleSave}
+                    disabled={isSaving}
+                    class="btn-save"
+                ></lightning-button>
+            </div>
+        </template>
+
+    </div>
+</template>
